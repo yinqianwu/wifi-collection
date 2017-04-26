@@ -1,0 +1,44 @@
+snmp_mibs:
+    -
+     mib: 'AIRESPACE-WIRELESS-MIB'
+     node: bsnAPTable
+    -
+     mib: 'AIRESPACE-WIRELESS-MIB'
+     node: bsnAPIfTable
+    -
+     mib: 'AIRESPACE-WIRELESS-MIB'
+     node: bsnMobileStationTable
+    -
+     mib: 'AIRESPACE-WIRELESS-MIB'
+     node: bsnMobileStationStatsTable
+
+    -
+     mib: 'AIRESPACE-WIRELESS-MIB'
+     node: bsnAP
+    -
+     mib: 'AIRESPACE-WIRELESS-MIB'
+     node: bsnGlobalDot11aCurrentTxPowerLevel
+    -
+     mib: 'AIRESPACE-WIRELESS-MIB'
+     node: bsnGlobalDot11bConfig
+    -
+     mib: 'AIRESPACE-WIRELESS-MIB'
+     node: bsnMobileStationByIpTable
+    -
+     mib: 'AIRESPACE-WIRELESS-MIB'
+     node: bsnRadiusAuthServerStatsTable
+    -
+     mib: 'AIRESPACE-WIRELESS-MIB'
+     node: bsnRadiusAccServerStatsEntry
+
+
+snmp_agents:
+    -
+     ip: 10.33.152.72
+     data_prefix: 'wlc_svl'
+     check_interval: 300
+     v3User: 'sln'
+     v3AuthK: 'authpass4sln'
+     v3PrivK: 'privpass4sln'
+     v3AuthP: 'usmHMACSHAAuthProtocol'
+     v3PrivP: 'usmAesCfb128Protocol'

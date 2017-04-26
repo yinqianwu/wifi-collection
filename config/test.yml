@@ -1,0 +1,19 @@
+general_configs:
+    log_directory: /tmp/logs
+    data_directory: /tmp/data
+    data_file_rotation_thr: 1000000
+
+data_to_be_polled:
+    -
+     api_path: /data/WlanControllerDetails
+     check_interval: 1800
+     check_window: 3600
+
+prime_servers:
+    -
+     ip: pir-aer1-1-a.cisco.com
+     check_interval: 10
+     base_path: /webacs/api/
+     username: pi-api-splunk.gen
+     password: piapi4splunk
+     data_prefix: europe

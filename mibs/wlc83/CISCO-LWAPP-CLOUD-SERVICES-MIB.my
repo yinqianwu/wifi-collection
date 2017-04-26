@@ -1,0 +1,383 @@
+-- *******************************************************************
+-- CISCO-LWAPP-CLOUD-SERVICES-MIB.my
+-- Apr 2016, Ravi and Poornima.
+--
+-- Copyright (c) 2016, 20015-20016 by Cisco Systems, Inc.
+-- All rights reserved.
+-- *******************************************************************
+--
+CISCO-LWAPP-CLOUD-SERVICES-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+    MODULE-IDENTITY,
+    OBJECT-TYPE,
+    Unsigned32,
+    NOTIFICATION-TYPE
+        FROM SNMPv2-SMI
+    MODULE-COMPLIANCE,
+    OBJECT-GROUP,
+    NOTIFICATION-GROUP
+        FROM SNMPv2-CONF
+    TEXTUAL-CONVENTION,
+    DisplayString,
+    TruthValue,
+    StorageType
+        FROM SNMPv2-TC
+    SnmpAdminString
+        FROM SNMP-FRAMEWORK-MIB
+    entPhysicalIndex,
+    PhysicalIndexOrZero
+        FROM ENTITY-MIB
+    InetAddressType,
+    InetAddress
+        FROM INET-ADDRESS-MIB
+    ciscoMgmt
+        FROM CISCO-SMI;
+
+--********************************************************************
+--*  MODULE IDENTITY
+--********************************************************************
+ciscoLwappCloudServicesMIB MODULE-IDENTITY
+    LAST-UPDATED    "201616030000Z"
+    ORGANIZATION    "Cisco Systems Inc."
+    CONTACT-INFO
+            "Cisco Systems
+            Customer Service
+            Postal: 170 W Tasman Drive
+            San Jose, CA  95134
+            USA
+            Tel: +1 800 553 -NETS
+            E-mail: cs-snmp@cisco.com"
+    DESCRIPTION
+        "The MIB module for configuring cloud services with various options.
+         Server url:
+              This object specifies the URL for cloud services server.
+         Server id-token
+              This object specifies the token id for cloud services server.
+         
+         WSA Enable
+              This object specifies whether cloud services for 
+              wsa is enbled or disabled.
+              A value of 'true' enables cloud services for wsa.
+              A value of 'false' disables cloud services for wsa.  
+         WSA Sensor Backhaul Ssid
+              This object specifies the ssid for WSA sensor backhaul.
+         WSA AuthType
+              This object specifies about authentication type 
+              for WSA sensor backhaul.
+              A value of 'open'/'dot1x'/'psk' defines the authtype for
+              cloud services for wsa backhaul.
+         WSA EapType
+              This object specifies about EAP type for WSA sensor backhaul.
+              A value of 'eap-fast'/'eap-tls'/'peap' defines the authtype 
+              for wsa sensor backhaul.
+         WSA Username
+              This object specifies about the username for dot1x
+              authentication type for WSA sensor backhaul.
+         WSA Password
+              This object specifies about the password for dot1x 
+              authentication type for WSA sensor backhaul.
+         WSA Psk
+              This object specifies about the psk value for psk 
+              authentication type for WSA sensor backhaul.
+
+         CMX Enable
+              This object specifies whether cloud services for cmx is
+              enbled or disabled.
+              A value of 'true' enables cloud services for cmx.
+              A value of 'false' disables cloud services for cmx."
+
+    REVISION        "201616030000Z"
+    DESCRIPTION
+        "Initial version of config cloud servises MIB module."
+    ::= { ciscoMgmt 99999 }
+
+ciscoLwappCloudServicesMIBNotifs  OBJECT IDENTIFIER
+	::= { ciscoLwappCloudServicesMIB 0 }
+
+ciscoLwappCloudServicesMIBObjects OBJECT IDENTIFIER
+	::= { ciscoLwappCloudServicesMIB 1 }
+
+ciscoLwappCloudServicesMIBConform OBJECT IDENTIFIER
+	::= { ciscoLwappCloudServicesMIB 2 }
+
+ciscoLwappCloudServicesServerConfig OBJECT IDENTIFIER
+	::= { ciscoLwappCloudServicesMIBObjects 1 }
+
+ciscoLwappCloudServicesWSAConfig OBJECT IDENTIFIER
+	::= { ciscoLwappCloudServicesMIBObjects 2 }
+
+ciscoLwappCloudServicesCMXConfig OBJECT IDENTIFIER
+    	::= { ciscoLwappCloudServicesMIBObjects 3 } 
+
+clmgmtSensorToWsaTrapConfiguration  OBJECT IDENTIFIER
+    ::= { ciscoLwappCloudServicesMIBObjects 4 } 
+
+ciscoSensorToWsaTrapMgmtObjects  OBJECT IDENTIFIER
+        ::= { ciscoLwappCloudServicesMIBObjects 5 } 
+
+--*****************************************************************************
+--         cisco LWAPP cloud services server configuration
+--*****************************************************************************
+
+cLwappCloudServicesServerUrl OBJECT-TYPE
+                SYNTAX     DisplayString
+                MAX-ACCESS read-write
+                STATUS     current
+                DESCRIPTION
+                "This object specifies the URL for cloud services server."
+		DEFVAL    { "" }
+                 ::=    { ciscoLwappCloudServicesServerConfig 1 }
+
+cLwappCloudServicesServerIdToken OBJECT-TYPE
+                SYNTAX     DisplayString
+                MAX-ACCESS read-write
+                STATUS     current
+                DESCRIPTION
+                "This object specifies the token id for cloud services server."
+		DEFVAL    { "" }
+                 ::=    { ciscoLwappCloudServicesServerConfig 2 }
+
+--*******************************************************************************
+--         cisco LWAPP cloud services WSA sensor configuration
+--*******************************************************************************
+
+cLwappCloudServicesWSAEnable OBJECT-TYPE
+                SYNTAX       TruthValue 
+                MAX-ACCESS   read-write
+                STATUS       current
+                DESCRIPTION
+                "The scope of WSA is to enable complete visibility into the 
+                 wireless infrastructure which will enable customers to modify
+                 the deployment to maximize the productivity, zero down on 
+                 trouble spots and proactively debug and fix the issues.
+     
+                 WSA is about improving the time it takes to identify issues in 
+                 Enterprise wireless infrastructure and building in capabilities 
+                 to quickly remediate these issues. The system will be used by 
+                 network admin/analysts to assist arriving at root cause of 
+                 technical issues quicker. WSA has 3 key facets: 
+                 1. Network Analytics
+                 2. Network Assurance 
+                 3. Client troubleshooting
+
+                 This object specifies whether cloud services for 
+	         wsa is enbled or disabled.
+                 A value of 'true' enables cloud services for wsa.
+                 A value of 'false' disables cloud services for wsa."
+		DEFVAL    { true }
+                ::=    { ciscoLwappCloudServicesWSAConfig 1 }
+
+cLwappWSASensorBackhaulSSID                      OBJECT-TYPE
+                SYNTAX                          DisplayString
+                MAX-ACCESS                      read-write
+                STATUS                          current
+                DESCRIPTION
+                "This object specifies the SSID for cloud services WSA 
+		 sensor backhaul."
+		DEFVAL    { "" }
+                ::=    { ciscoLwappCloudServicesWSAConfig 2 }
+
+
+cLwappWSASensorBackhaulAuthType			OBJECT-TYPE
+                SYNTAX                          INTEGER  {
+                                                dot1x(1),
+                                                psk(2),
+                                                open(3)
+                                                }
+                MAX-ACCESS                      read-write
+                STATUS                          current
+                DESCRIPTION
+                "This object specifies about authentication type of cloud
+                 services WSA sensor backhaul.
+                 A value of 'open'/'dot1x'/'psk' defines the authtype for
+                 cloud services WSA sensor backhaul."
+-- ahonore
+--		DEFVAL    { false }
+                ::=    { ciscoLwappCloudServicesWSAConfig 3 }
+
+cLwappWSASensorBackhaulEapType		OBJECT-TYPE
+                SYNTAX                 INTEGER  {
+                                        eapfast(43),
+                                        eaptls(13),
+                                        peap(25)
+                                        }
+                MAX-ACCESS             read-write
+                STATUS                 current
+                DESCRIPTION
+                "This object specifies about EAP type of cloud services 
+                 WSA sensor backhaul.
+                 A value of 'eap-fast'/'eap-tls'/'peap' defines the authtype 
+                 for cloud services WSA sensor backhaul."
+		DEFVAL    { 0 }
+                 ::=    { ciscoLwappCloudServicesWSAConfig 4 }
+
+cLwappWSASensorBackhaulUsername     OBJECT-TYPE
+                SYNTAX                                  DisplayString
+                MAX-ACCESS                              read-write
+                STATUS                                  current
+                DESCRIPTION
+                "This object specifies about the username for dot1x type 
+                 authentication type of cloud services WSA sensor backhaul."
+		DEFVAL    { "" }
+                ::=    { ciscoLwappCloudServicesWSAConfig 5 }
+
+
+cLwappWSASensorBackhaulPassword     OBJECT-TYPE
+                SYNTAX                                  DisplayString
+                MAX-ACCESS                              read-write
+                STATUS                                  current
+                DESCRIPTION
+                "This object specifies about the password for dot1x type 
+                 authentication type of cloud services WSA sensor backhaul."
+		DEFVAL    { "" }
+                ::=    { ciscoLwappCloudServicesWSAConfig 6 }
+
+
+cLwappWSASensorBackhaulPsk               OBJECT-TYPE
+                SYNTAX                                  DisplayString
+                MAX-ACCESS                              read-write
+                STATUS                                  current
+                DESCRIPTION
+                "This object specifies about the psk value for psk 
+                authentication type of cloud services for WSA sensor backhaul."
+		DEFVAL    { "" }
+                ::=    { ciscoLwappCloudServicesWSAConfig 7 }
+
+cLwappWSASensorBackhaulPskMode               OBJECT-TYPE
+                 SYNTAX                                  INTEGER  {
+                                                         ascii(1),
+                                                         hex(2)
+                                                         }
+
+                  MAX-ACCESS                              read-write
+                  STATUS                                  current
+                  DESCRIPTION
+                 "This object specifies about the psk mode for psk
+                  authentication type of cloud services for WSA sensor backhaul."
+       DEFVAL    { "" }
+                 ::=    { ciscoLwappCloudServicesWSAConfig 8 }
+
+--*******************************************************************************
+--         cisco LWAPP cloud services CMX configuration
+--*******************************************************************************
+
+cLwappCloudServicesCMXEnable OBJECT-TYPE
+                SYNTAX       TruthValue 
+                MAX-ACCESS   read-write
+                STATUS       current
+                DESCRIPTION
+                "This object specifies whether cloud services for cmx is 
+                 enbled or disabled.
+                 A value of 'true' enables cloud services for cmx.
+                 A value of 'false' disables cloud services for cmx."
+        	DEFVAL    { false }
+                ::=    { ciscoLwappCloudServicesCMXConfig 1 }
+
+--*******************************************************************
+--*    Compliance statements
+--********************************************************************
+ciscoLwappCloudServicesMIBCompliances OBJECT IDENTIFIER
+        ::= { ciscoLwappCloudServicesMIBConform 1 }
+
+ciscoLwappCloudServicesMIBGroups OBJECT IDENTIFIER
+        ::= { ciscoLwappCloudServicesMIBConform 2 }
+
+ciscoLwappCloudServicesMIBCompliance MODULE-COMPLIANCE
+        STATUS  deprecated
+        DESCRIPTION
+                "The compliance statement for the SNMP entities that
+                implement this MIB. "
+        MODULE MANDATORY-GROUPS { ciscoLwappCloudServicesServerConfigGroups,
+				  ciscoLwappCloudServicesWSAConfigGroups,
+                  ciscoLwappCloudServicesCMXConfigGroups 	
+				 }
+        ::= { ciscoLwappCloudServicesMIBCompliances 1 }
+
+
+--********************************************************************
+--*    Units of conformance
+--********************************************************************
+
+ciscoLwappCloudServicesServerConfigGroup OBJECT-GROUP
+	OBJECTS {
+		cLwappCloudServicesServerUrl,
+	        cLwappCloudServicesServerIdToken	
+		}
+	STATUS	current	
+	DESCRIPTION
+	"This collection of objects represent the
+        configuration of server on the controller to be passed
+        to an LWAPP AP."
+	::= { ciscoLwappCloudServicesMIBGroups 1 }
+
+ciscoLwappCloudServicesWSAConfigGroup OBJECT-GROUP
+	OBJECTS	{
+		cLwappCloudServicesWSAEnable,
+	        cLwappWSASensorBackhaulSSID,
+        	cLwappWSASensorBackhaulAuthType,
+		cLwappWSASensorBackhaulEapType,
+	        cLwappWSASensorBackhaulUsername,
+        	cLwappWSASensorBackhaulPassword,
+	        cLwappWSASensorBackhaulPsk,
+            cLwappWSASensorBackhaulPskMode	
+		}
+	STATUS	current
+	DESCRIPTION
+	"This collection of objects represent the
+        configuration of WSA on the controller to be passed
+        to an LWAPP AP."
+	::= { ciscoLwappCloudServicesMIBGroups 2 }
+
+ciscoLwappCloudServicesCMXConfigGroup OBJECT-GROUP
+    OBJECTS {
+        cLwappCloudServicesCMXEnable
+        }
+    STATUS  current
+    DESCRIPTION
+    "This collection of objects represent the configuration for Connected 
+    Mobility Experience (CMX) on the controller to be passed to an LWAPP AP."
+    ::= { ciscoLwappCloudServicesMIBGroups 3 }
+
+-- Objects for enabling/disabling notifications
+
+clSensorLradMacAddr OBJECT-TYPE
+      SYNTAX      SnmpAdminString (SIZE(0..32))
+      MAX-ACCESS  accessible-for-notify
+      STATUS      current
+      DESCRIPTION
+          "This object specifies the system mac adress."
+      ::= {ciscoSensorToWsaTrapMgmtObjects 1 } 
+
+clSensorWsaStatus OBJECT-TYPE 
+      SYNTAX      SnmpAdminString
+      MAX-ACCESS  accessible-for-notify
+      STATUS      current
+      DESCRIPTION
+          "This object specifies wsa status."
+      ::= {ciscoSensorToWsaTrapMgmtObjects 2 } 
+
+clSensorErrCode OBJECT-TYPE 
+      SYNTAX      SnmpAdminString 
+      MAX-ACCESS  accessible-for-notify
+      STATUS      current
+      DESCRIPTION
+          "This object specifies error code."
+      ::= {ciscoSensorToWsaTrapMgmtObjects 3 }
+
+clSensorNotReachableWsaDevStatus NOTIFICATION-TYPE
+OBJECTS {
+            clSensorLradMacAddr,
+            clSensorWsaStatus,
+            clSensorErrCode
+        }   
+        STATUS current
+        DESCRIPTION
+         "This object is used to send a trap whenever the
+         device status moves to out of compliance with 
+         respect to smart-licensing"
+        ::= { ciscoLwappCloudServicesMIBNotifs 1 } 
+
+
+
+END

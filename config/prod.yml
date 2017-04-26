@@ -1,0 +1,81 @@
+general_configs:
+    log_directory: /tmp/logs
+    data_directory: /tmp/data
+    data_file_rotation_thr: 1000000
+
+data_to_be_polled:
+    -
+     api_path: /data/WlanControllerDetails
+     check_interval: 1800
+     check_window: 3600
+    -
+     api_path: /data/AccessPointDetails
+     check_interval: 1800
+     check_window: 3600
+    -
+     api_path: /data/Radios
+     check_interval: 1800
+     check_window: 3600
+    -
+     api_path: /data/RadioDetails
+     check_interval: 1800
+     check_window: 3600
+    -
+     api_path: /data/ClientStats
+     timestamp_field: collectionTime
+     check_interval: 60
+     check_window: 600
+     only_associated: true
+    -
+     api_path: /data/ClientCounts
+     timestamp_field: collectionTime
+     check_interval: 60
+     check_window: 600
+    -
+     api_path: /data/ClientTraffics
+     timestamp_field: collectionTime
+     check_interval: 60
+     check_window: 600
+    -
+     api_path: /data/ClientDetails
+     timestamp_field: updateTime
+     check_interval: 60
+     check_window: 600
+     only_associated: true
+    -
+     api_path: /data/ClientSessions
+     check_interval: 60
+     check_window: 600
+    -
+     api_path: /data/RFCounters
+     timestamp_field: collectionTime
+     check_interval: 60
+     check_window: 600
+    -
+     api_path: /data/RFStats
+     timestamp_field: collectionTime
+     check_interval: 60
+     check_window: 600
+
+prime_servers:
+    -
+     ip: pir-aer1-1-a.cisco.com
+     check_interval: 10
+     base_path: /webacs/api/
+     username: pi-api-splunk.gen
+     password: piapi4splunk
+     data_prefix: europe
+    -
+     ip: pir-rtp5-1-a.cisco.com
+     check_interval: 10
+     base_path: /webacs/api/
+     username: pi-api-splunk.gen
+     password: piapi4splunk
+     data_prefix: rtp
+    -
+     ip: pir-rch2-1-a.cisco.com
+     check_interval: 10
+     base_path: /webacs/api/
+     username: pi-api-splunk.gen
+     password: piapi4splunk
+     data_prefix: rch

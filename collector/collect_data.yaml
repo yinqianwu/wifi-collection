@@ -1,0 +1,11 @@
+
+data_collection_duration: 180
+data_collection_interval: 60
+# inter_cli_interval: 0.1
+
+controllers:
+    -
+     wlc_hostname: sln-wlab-gw
+     wlc_username: admin
+     wlc_password: C1sc0123
+     wlc_ssh_port: 2022
